@@ -5,12 +5,13 @@
 html {
 	font-family: "League Spartan", sans-serif;
 	width: 100vw;
-	height: 100vh;
+	height: 100%;
 	overflow: hidden;
 }
 
 body {
 	grid-template-rows: auto 1fr;
+	height: 100%;
 }
 
 h1 {
