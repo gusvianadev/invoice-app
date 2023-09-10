@@ -23,6 +23,14 @@ h2 {
 	letter-spacing: -0.75px;
 }
 
+h3 {
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 24px;
+	letter-spacing: -0.25px;
+}
+
 p {
 	font-size: 13px;
 	font-style: normal;

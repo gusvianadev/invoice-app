@@ -1,5 +1,98 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Dot } from "lucide-react";
+import data from "@/assets/data.json";
+
+const currencies = {
+	"United Kingdom": {
+		countryCode: "en-GB",
+		currency: "GBP",
+	},
+	"United States of America": {
+		countryCode: "en-US",
+		currency: "USD",
+	},
+};
 ---
 
-<BaseLayout />
+<BaseLayout>
+	{
+		data.map((invoice) => {
+			const clientCurrency =
+				currencies[
+					invoice.clientAddress.country as keyof typeof currencies
+				];
+
+			const currency = new Intl.NumberFormat(
+				clientCurrency?.countryCode || "en-US",
+				{
+					style: "currency",
+					currency: clientCurrency?.currency || "USD",
+					minimumFractionDigits: 2,
+				}
+			).format(invoice.total);
+
+			const due = new Intl.DateTimeFormat("en-US", {
+				year: "numeric",
+				month: "short",
+				day: "numeric",
+			})
+				.format(new Date(invoice.paymentDue))
+				.replace(",", "");
+
+			const dotClass = {
+				paid: "stroke-green-400",
+				pending: "stroke-yellow-400",
+				draft: "stroke-gray-200",
+			};
+
+			return (
+				<div class="w-full rounded-md bg-background p-4">
+					<span class="flex w-full items-center justify-between">
+						<h3 class="mb-3">
+							<span class="text-gray-400">#</span>
+							{invoice.id}
+						</h3>
+						<p>{invoice.clientName}</p>
+					</span>
+					<span class="flex w-full items-center justify-between">
+						<div>
+							<p class="text-gray-300">Due {due}</p>
+							<p class="text-md font-bold">{currency}</p>
+						</div>
+						<div
+							class:list={{
+								"bg-green-700": invoice.status === "paid",
+								"bg-yellow-700": invoice.status === "pending",
+								"bg-gray-700": invoice.status === "draft",
+							}}
+							class="flex h-10 w-28 items-center justify-start rounded-md bg-opacity-20 pl-4"
+						>
+							<Dot
+								className={
+									dotClass[
+										invoice.status as keyof typeof dotClass
+									]
+								}
+								strokeWidth={6}
+							/>
+							<p
+								class:list={{
+									"capitalize text-green-400":
+										invoice.status === "paid",
+									"capitalize text-yellow-400":
+										invoice.status === "pending",
+									"capitalize text-gray-200":
+										invoice.status === "draft",
+								}}
+								class="text-md font-bold"
+							>
+								{invoice.status}
+							</p>
+						</div>
+					</span>
+				</div>
+			);
+		})
+	}
+</BaseLayout>
