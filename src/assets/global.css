@@ -6,6 +6,11 @@ html {
 	font-family: "League Spartan", sans-serif;
 	width: 100vw;
 	height: 100vh;
+	overflow: hidden;
+}
+
+body {
+	grid-template-rows: auto 1fr;
 }
 
 h1 {
@@ -16,10 +21,6 @@ h1 {
 h2 {
 	@apply text-2xl font-bold;
 	letter-spacing: -0.75px;
-}
-
-body {
-	grid-template-rows: auto 1fr;
 }
 
 p {

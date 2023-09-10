@@ -20,11 +20,11 @@ import illustrationEmpty from "@/assets/img/illustration-empty.svg";
 		<meta name="generator" content={Astro.generator} />
 		<title>Invoice App</title>
 	</head>
-	<body class="dark grid h-full w-full grid-cols-1">
+	<body class="dark grid h-full w-full grid-cols-1 overflow-hidden">
 		<header class="w-full">
 			<Nav />
 		</header>
-		<main class="flex flex-col">
+		<main class="flex flex-col overflow-y-scroll">
 			<div class="flex items-center justify-between p-5">
 				<span>
 					<h1>Invoices</h1>
