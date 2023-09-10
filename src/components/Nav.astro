@@ -1,0 +1,13 @@
+---
+import SiteLogo from "./SiteLogo.astro";
+import avatar from "@/assets/img/image-avatar.jpg";
+---
+
+<nav class="flex h-fit justify-between bg-background">
+	<SiteLogo />
+	<div
+		class="grid items-center self-stretch border border-l-white border-opacity-20 px-4"
+	>
+		<img src={avatar.src} alt="user avatar" class="h-9 w-9 rounded-full" />
+	</div>
+</nav>

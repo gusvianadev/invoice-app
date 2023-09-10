@@ -1,0 +1,77 @@
+---
+import "@/assets/global.css";
+import Nav from "@/components/Nav.astro";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Plus } from "lucide-react";
+import illustrationEmpty from "@/assets/img/illustration-empty.svg";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon-32x32.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Invoice App</title>
+	</head>
+	<body class="dark grid h-full w-full grid-cols-1">
+		<header class="w-full">
+			<Nav />
+		</header>
+		<main class="flex flex-col">
+			<div class="flex items-center justify-between p-5">
+				<span>
+					<h1>Invoices</h1>
+					<p>No invoices</p>
+				</span>
+				<div class="flex items-center">
+					<Button className="text-md font-bold" variant="ghost">
+						Filter
+						<ChevronDown
+							size={17}
+							strokeWidth={3}
+							className="ml-2 stroke-primary"
+						/>
+					</Button>
+					<Button
+						className="p-2 pr-5 py-6 text-md font-bold rounded-full"
+					>
+						<div class="mr-2 rounded-full bg-white p-2">
+							<Plus
+								className="stroke-primary"
+								strokeWidth={5}
+								size={15}
+							/>
+						</div>
+						 New
+					</Button>
+				</div>
+			</div>
+			<div class="flex grow">
+				<slot>
+					<div class="m-auto flex flex-col gap-10">
+						<img
+							class="mx-auto"
+							src={illustrationEmpty.src}
+							alt="empty invoice image"
+						/>
+						<div class="px-10 text-center">
+							<h2 class="mb-3">There is nothing here</h2>
+							<p class="px-10">
+								Create an invoice by clicking the <strong
+									>New</strong
+								> button and get started
+							</p>
+						</div>
+					</div>
+				</slot>
+			</div>
+		</main>
+	</body>
+</html>
