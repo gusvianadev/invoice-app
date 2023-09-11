@@ -3,13 +3,14 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "bunx --bun astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "build": "bun --bun astro build",
+    "preview": "bun --bun astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^6.0.0",
     "@astrojs/react": "^3.0.2",
     "@astrojs/tailwind": "^5.0.0",
     "@astrojs/vercel": "^4.0.5",
