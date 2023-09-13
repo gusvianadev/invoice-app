@@ -1,0 +1,31 @@
+---
+import { ChevronLeft } from "lucide-react";
+import Metadata from "@/layouts/Metadata.astro";
+import { Button } from "@/components/ui/button";
+---
+
+<Metadata>
+	<main
+		transition:animate="slide"
+		class="flex flex-col gap-5 overflow-hidden pt-5"
+	>
+		<div class="flex items-center justify-between px-5">
+			<a href="/" class="-ml-2 flex py-3">
+				<ChevronLeft className="stroke-primary pb-1" />
+				 Go back
+			</a>
+		</div>
+		<div class="flex grow flex-col gap-3 overflow-y-scroll px-5 pb-5">
+			<slot />
+		</div>
+	</main>
+	<footer class="flex items-center justify-center gap-4 bg-background py-4">
+		<Button className="rounded-full p-6 font-bold" variant="secondary">
+			Edit
+		</Button>
+		<Button className="rounded-full p-6 font-bold" variant="destructive">
+			Delete
+		</Button>
+		<Button className="rounded-full p-6 font-bold">Mark as Paid</Button>
+	</footer>
+</Metadata>

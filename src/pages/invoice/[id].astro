@@ -1,0 +1,117 @@
+---
+import StatusBadge from "@/components/StatusBadge.astro";
+import InvoiceLayout from "@/layouts/InvoiceLayout.astro";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import data from "@/assets/data.json";
+import { createDate, formatMoney, type Country } from "@/lib/utils";
+
+const { id } = Astro.params;
+
+const invoice = data.find((item) => item.id === id)!;
+
+export const prerender = false;
+---
+
+<InvoiceLayout>
+	<Card>
+		<CardContent className="flex items-center justify-between">
+			<p>Status</p>
+			<StatusBadge status={invoice.status} />
+		</CardContent>
+	</Card>
+	<Card>
+		<CardHeader>
+			<CardTitle>
+				<span class="text-gray-400">#</span>
+				{id}
+			</CardTitle>
+			<CardDescription>
+				{invoice.description}
+			</CardDescription>
+		</CardHeader>
+		<CardContent>
+			<p>{invoice.senderAddress.street}</p>
+			<p>{invoice.senderAddress.city}</p>
+			<p>{invoice.senderAddress.postCode}</p>
+			<p>{invoice.senderAddress.country}</p>
+			<div class="mt-5 grid grid-cols-2 gap-y-7">
+				<div class="flex flex-col gap-11">
+					<span>
+						<p>Invoice Date</p>
+						<h3>{createDate(invoice.createdAt)}</h3>
+					</span>
+					<span>
+						<p>Payment Due</p>
+						<h3>{createDate(invoice.paymentDue)}</h3>
+					</span>
+				</div>
+				<div>
+					<p>Bill To</p>
+					<h3 class="mb-3">{invoice.clientName}</h3>
+					<p>{invoice.clientAddress.street}</p>
+					<p>{invoice.clientAddress.city}</p>
+					<p>{invoice.clientAddress.postCode}</p>
+					<p>{invoice.clientAddress.country}</p>
+				</div>
+				<div>
+					<p>Sent to</p>
+					<h3 class="mb-t">{invoice.clientEmail}</h3>
+				</div>
+			</div>
+		</CardContent>
+		<CardFooter>
+			<Card className="bg-invoice-footer w-full">
+				<CardContent className="flex gap-3 flex-col">
+					{
+						invoice.items.map((item) => {
+							return (
+								<div class="flex items-center justify-between">
+									<span>
+										<h3>{item.name}</h3>
+										<h3 class="text-gray-500">
+											{item.quantity} x{" "}
+											{formatMoney(
+												item.price,
+												invoice.clientAddress
+													.country as Country
+											)}
+										</h3>
+									</span>
+									<h3>
+										{formatMoney(
+											item.total,
+											invoice.clientAddress
+												.country as Country
+										)}
+									</h3>
+								</div>
+							);
+						})
+					}
+				</CardContent>
+				<CardFooter
+					className="bg-invoice-footer-total p-5 rounded-b-md"
+				>
+					<div class="flex w-full items-center justify-between">
+						<h3 class="font-medium">Amount Due</h3>
+						<h2>
+							{
+								formatMoney(
+									invoice.total,
+									invoice.clientAddress.country as Country
+								)
+							}
+						</h2>
+					</div>
+				</CardFooter>
+			</Card>
+		</CardFooter>
+	</Card>
+</InvoiceLayout>

@@ -1,0 +1,39 @@
+---
+import { Dot } from "lucide-react";
+
+type Props = {
+	status: string;
+};
+
+const { status } = Astro.props;
+
+const dotClass = {
+	paid: "stroke-green-400",
+	pending: "stroke-orange-400",
+	draft: "stroke-gray-200",
+};
+---
+
+<div
+	class:list={{
+		"bg-green-700": status === "paid",
+		"bg-yellow-700": status === "pending",
+		"bg-gray-700": status === "draft",
+	}}
+	class="flex h-10 w-28 items-center justify-start rounded-md bg-opacity-20 pl-4"
+>
+	<Dot
+		className={dotClass[status as keyof typeof dotClass]}
+		strokeWidth={6}
+	/>
+	<p
+		class:list={{
+			"capitalize text-green-400": status === "paid",
+			"capitalize text-orange-400": status === "pending",
+			"capitalize text-gray-200": status === "draft",
+		}}
+		class="text-md font-bold"
+	>
+		{status}
+	</p>
+</div>

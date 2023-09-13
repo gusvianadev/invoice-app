@@ -43,6 +43,9 @@ p {
 @layer base {
 	:root {
 		--background: 0 0% 100%;
+		--base: 240 27% 98%;
+		--invoice-footer: 231 67% 99%;
+		--invoice-footer-total: 231 20% 27%;
 		--foreground: 233 31% 17%;
 		--card: 0 0% 100%;
 		--card-foreground: 233 31% 17%;
@@ -67,6 +70,8 @@ p {
 	.dark {
 		--background: 233 31% 17%;
 		--base: 233 30% 11%;
+		--invoice-footer: 233 30% 21%;
+		--invoice-footer-total: 228 29% 7%;
 		--foreground: 210 20% 98%;
 		--card: 233 31% 17%;
 		--card-foreground: 210 20% 98%;
