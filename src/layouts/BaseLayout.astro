@@ -3,6 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Plus } from "lucide-react";
 import illustrationEmpty from "@/assets/img/illustration-empty.svg";
 import Metadata from "@/layouts/Metadata.astro";
+
+type Props = {
+	invoiceCount: number;
+};
+
+const { invoiceCount } = Astro.props;
 ---
 
 <Metadata>
@@ -10,35 +16,46 @@ import Metadata from "@/layouts/Metadata.astro";
 		transition:animate="slide"
 		class="flex flex-col gap-5 overflow-hidden pt-5"
 	>
-		<div class="flex items-center justify-between px-5">
+		<div class="inner-nav flex items-center justify-between px-5">
 			<span>
 				<h1>Invoices</h1>
-				<p>No invoices</p>
+				<p class="md:hidden">
+					{invoiceCount ? `${invoiceCount} invoices` : "No invoices"}
+				</p>
+				<p class="hidden md:block lg:hidden">
+					{
+						invoiceCount
+							? `There are ${invoiceCount} total invoices`
+							: "No invoices"
+					}
+				</p>
 			</span>
-			<div class="flex items-center">
+			<div class="gutter flex h-fit items-center overflow-y-auto">
 				<Button className="text-md font-bold" variant="ghost">
-					Filter
+					<span class="md:hidden">Filter</span>
+					<span class="hidden md:block">Filter by status</span>
 					<ChevronDown
 						size={17}
 						strokeWidth={3}
 						className="ml-2 stroke-primary"
 					/>
 				</Button>
-				<Button
-					className="p-2 pr-5 py-6 text-md font-bold rounded-full"
-				>
-					<div class="mr-2 rounded-full bg-white p-2">
-						<Plus
-							className="stroke-primary"
-							strokeWidth={5}
-							size={15}
-						/>
-					</div>
-					 New
-				</Button>
+				<a rel="prefetch" href="invoice/new">
+					<Button className="p-2 pr-5 py-6 text-md font-bold">
+						<div class="mr-2 rounded-full bg-white p-2">
+							<Plus
+								className="stroke-primary"
+								strokeWidth={5}
+								size={15}
+							/>
+						</div>
+						<span class="md:hidden">New</span>
+						<span class="hidden md:block">New Invoice</span>
+					</Button>
+				</a>
 			</div>
 		</div>
-		<div class="flex grow flex-col gap-3 overflow-y-scroll px-5 pb-5">
+		<div class="gutter flex grow flex-col gap-3 overflow-y-auto px-5 pb-5">
 			<slot>
 				<div class="m-auto flex flex-col gap-10">
 					<img

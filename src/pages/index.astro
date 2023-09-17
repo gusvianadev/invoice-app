@@ -4,18 +4,22 @@ import data from "@/assets/data.json";
 import StatusBadge from "@/components/StatusBadge.astro";
 import { Card, CardContent } from "@/components/ui/card";
 import { createDate, formatMoney, type Country } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
+
+export const prerender = false;
 ---
 
-<BaseLayout>
+<BaseLayout invoiceCount={data.length}>
 	{
 		data.map((invoice) => {
 			return (
 				<Card>
 					<CardContent className="p-0">
 						<a
+							rel="prefetch"
 							href={`/invoice/${invoice.id}`}
 							id={invoice.id}
-							class="block cursor-pointer p-5"
+							class="block cursor-pointer gap-3 p-5 md:hidden"
 						>
 							<span class="flex w-full items-center justify-between">
 								<h3 class="mb-3">
@@ -25,8 +29,8 @@ import { createDate, formatMoney, type Country } from "@/lib/utils";
 								<p>{invoice.clientName}</p>
 							</span>
 							<span class="flex w-full items-center justify-between">
-								<div>
-									<p class="text-gray-300">
+								<span>
+									<p class="text-gray-500 dark:text-gray-300">
 										Due {createDate(invoice.paymentDue)}
 									</p>
 									<p class="text-md font-bold">
@@ -36,9 +40,34 @@ import { createDate, formatMoney, type Country } from "@/lib/utils";
 												.country as Country
 										)}
 									</p>
-								</div>
+								</span>
 								<StatusBadge status={invoice.status} />
 							</span>
+						</a>
+						<a
+							rel="prefetch"
+							href={`/invoice/${invoice.id}`}
+							id={invoice.id}
+							class="hidden cursor-pointer items-center justify-between gap-3 p-5 md:flex"
+						>
+							<h3>
+								<span class="text-gray-400">#</span>
+								{invoice.id}
+							</h3>
+							<p class="text-gray-500 dark:text-gray-300">
+								Due {createDate(invoice.paymentDue)}
+							</p>
+							<p>{invoice.clientName}</p>
+							<p class="text-md font-bold">
+								{formatMoney(
+									invoice.total,
+									invoice.clientAddress.country as Country
+								)}
+							</p>
+							<div class="flex items-center gap-2">
+								<StatusBadge status={invoice.status} />
+								<ChevronRight className="stroke-primary" />
+							</div>
 						</a>
 					</CardContent>
 				</Card>

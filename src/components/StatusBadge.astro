@@ -8,9 +8,9 @@ type Props = {
 const { status } = Astro.props;
 
 const dotClass = {
-	paid: "stroke-green-400",
-	pending: "stroke-orange-400",
-	draft: "stroke-gray-200",
+	paid: "stroke-green-600 dark:stroke-grenn-400",
+	pending: "stroke-orange-600 dark:stroke-orange-400",
+	draft: "stroke-gray-600 dark:stroke-gray-200",
 };
 ---
 
@@ -28,9 +28,10 @@ const dotClass = {
 	/>
 	<p
 		class:list={{
-			"capitalize text-green-400": status === "paid",
-			"capitalize text-orange-400": status === "pending",
-			"capitalize text-gray-200": status === "draft",
+			"capitalize text-green-600 dark:text-green-400": status === "paid",
+			"capitalize text-orange-600 dark:text-orange-400":
+				status === "pending",
+			"capitalize text-gray-600 dark:text-gray-200": status === "draft",
 		}}
 		class="text-md font-bold"
 	>

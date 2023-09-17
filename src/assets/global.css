@@ -33,6 +33,7 @@ h3 {
 }
 
 p {
+	@apply text-foreground;
 	font-size: 13px;
 	font-style: normal;
 	font-weight: 500;
@@ -40,9 +41,14 @@ p {
 	letter-spacing: -0.1px;
 }
 
+.gutter {
+	scrollbar-gutter: stable;
+}
+
 @layer base {
 	:root {
 		--background: 0 0% 100%;
+		--navbar: 233 31% 17%;
 		--base: 240 27% 98%;
 		--invoice-footer: 231 67% 99%;
 		--invoice-footer-total: 231 20% 27%;

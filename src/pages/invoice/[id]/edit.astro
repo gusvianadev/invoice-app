@@ -1,0 +1,15 @@
+---
+import data from "@/assets/data.json";
+import InvoiceForm from "@/components/InvoiceForm";
+import EditLayout from "@/layouts/EditLayout.astro";
+
+const { id } = Astro.params;
+
+const invoice = data.find((item) => item.id === id)!;
+
+export const prerender = false;
+---
+
+<EditLayout id={id!}>
+	<InvoiceForm invoice={invoice} client:only="react" />
+</EditLayout>

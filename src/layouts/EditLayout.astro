@@ -2,7 +2,6 @@
 import { ChevronLeft } from "lucide-react";
 import Metadata from "@/layouts/Metadata.astro";
 import { Button } from "@/components/ui/button";
-import DeleteDialog from "@/components/DeleteDialog";
 
 type Props = {
 	id: string;
@@ -16,25 +15,28 @@ const { id } = Astro.props;
 		transition:animate="slide"
 		class="flex flex-col gap-5 overflow-hidden pt-5"
 	>
-		<div class="flex items-center justify-between px-5">
-			<a rel="prefetch" href="/" class="-ml-2">
+		<div class="flex flex-col items-start px-5">
+			<a rel="prefetch" href={`/invoice/${id}`} class="-ml-2">
 				<span class="flex py-5 pr-5">
 					<ChevronLeft className="stroke-primary pb-1" />
 					 Go back
 				</span>
 			</a>
+			<h2>
+				Edit <span class="text-gray-400">#</span>
+				{id}
+			</h2>
 		</div>
 		<div class="flex grow flex-col gap-3 overflow-y-auto px-5 pb-5">
 			<slot />
 		</div>
 	</main>
-	<footer
-		class="flex items-center justify-center gap-4 bg-background py-4 md:hidden"
-	>
-		<a rel="prefetch" href={`/invoice/${id}/edit`}>
-			<Button className="p-6 font-bold" variant="secondary">Edit</Button>
-		</a>
-		<DeleteDialog id={id} client:only="react" />
-		<Button className="p-6 font-bold">Mark as Paid</Button>
+	<footer class="flex items-center justify-between bg-background p-4">
+		<Button className="p-6 font-bold" variant="destructive">
+			<a rel="prefetch" href={`/invoice/${id}`}>Cancel</a>
+		</Button>
+		<Button type="submit" form="invoice-form" className="p-6 font-bold">
+			Save Changes
+		</Button>
 	</footer>
 </Metadata>

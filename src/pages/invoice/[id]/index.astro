@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/card";
 import data from "@/assets/data.json";
 import { createDate, formatMoney, type Country } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import DeleteDialog from "@/components/DeleteDialog";
+import AmountDueTable from "@/components/AmountDueTable";
 
 const { id } = Astro.params;
 
@@ -19,32 +22,51 @@ const invoice = data.find((item) => item.id === id)!;
 export const prerender = false;
 ---
 
-<InvoiceLayout>
+<InvoiceLayout id={invoice.id}>
 	<Card>
-		<CardContent className="flex items-center justify-between">
+		<CardContent className="flex items-center gap-5 justify-between">
 			<p>Status</p>
-			<StatusBadge status={invoice.status} />
+			<div class="md:mr-auto">
+				<StatusBadge status={invoice.status} />
+			</div>
+			<div
+				class="hidden items-center justify-center gap-4 bg-background py-4 md:flex"
+			>
+				<a rel="prefetch" href={`/invoice/${id}/edit`}>
+					<Button className="p-6 font-bold" variant="secondary">
+						Edit
+					</Button>
+				</a>
+				<DeleteDialog id={id!} client:only="react" />
+				<Button className="p-6 font-bold">Mark as Paid</Button>
+			</div>
 		</CardContent>
 	</Card>
 	<Card>
-		<CardHeader>
-			<CardTitle>
-				<span class="text-gray-400">#</span>
-				{id}
-			</CardTitle>
-			<CardDescription>
-				{invoice.description}
-			</CardDescription>
+		<CardHeader className="grid gap-5 md:grid-cols-2">
+			<div>
+				<CardTitle>
+					<span class="text-gray-400">#</span>
+					{id}
+				</CardTitle>
+				<CardDescription>
+					{invoice.description}
+				</CardDescription>
+			</div>
+			<div class="md:text-right">
+				<p>{invoice.senderAddress.street}</p>
+				<p>{invoice.senderAddress.city}</p>
+				<p>{invoice.senderAddress.postCode}</p>
+				<p>{invoice.senderAddress.country}</p>
+			</div>
 		</CardHeader>
 		<CardContent>
-			<p>{invoice.senderAddress.street}</p>
-			<p>{invoice.senderAddress.city}</p>
-			<p>{invoice.senderAddress.postCode}</p>
-			<p>{invoice.senderAddress.country}</p>
-			<div class="mt-5 grid grid-cols-2 gap-y-7">
+			<div class="grid grid-cols-2 gap-y-7 md:grid-cols-3">
 				<div class="flex flex-col gap-11">
 					<span>
-						<p>Invoice Date</p>
+						<p class="text-gray-700 dark:text-gray-400">
+							Invoice Date
+						</p>
 						<h3>{createDate(invoice.createdAt)}</h3>
 					</span>
 					<span>
@@ -66,9 +88,9 @@ export const prerender = false;
 				</div>
 			</div>
 		</CardContent>
-		<CardFooter>
+		<CardFooter className="p-5">
 			<Card className="bg-invoice-footer w-full">
-				<CardContent className="flex gap-3 flex-col">
+				<CardContent className="flex md:hidden gap-3 flex-col">
 					{
 						invoice.items.map((item) => {
 							return (
@@ -96,8 +118,11 @@ export const prerender = false;
 						})
 					}
 				</CardContent>
+				<CardContent className="hidden md:block">
+					<AmountDueTable items={invoice.items} />
+				</CardContent>
 				<CardFooter
-					className="bg-invoice-footer-total p-5 rounded-b-md"
+					className="bg-invoice-footer-total text-white p-5 rounded-b-md"
 				>
 					<div class="flex w-full items-center justify-between">
 						<h3 class="font-medium">Amount Due</h3>

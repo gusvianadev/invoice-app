@@ -21,6 +21,7 @@ module.exports = {
 				"input": "hsl(var(--input))",
 				"ring": "hsl(var(--ring))",
 				"background": "hsl(var(--background))",
+				"navbar": "hsl(var(--navbar))",
 				"base": "hsl(var(--base))",
 				"invoice-footer": "hsl(var(--invoice-footer))",
 				"invoice-footer-total": "hsl(var(--invoice-footer-total))",
