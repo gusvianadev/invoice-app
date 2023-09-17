@@ -38,23 +38,17 @@ const { id } = Astro.props;
 	<footer
 		class="flex items-center justify-between bg-background p-4 xl:hidden"
 	>
-		<Button
-			id="cancel-edit-button"
-			className="p-6 font-bold"
-			variant="destructive"
-		>
-			Cancel
-		</Button>
+		<a href="javascript:history.back()">
+			<Button
+				id="cancel-edit-btn"
+				className="p-6 font-bold"
+				variant="destructive"
+			>
+				Cancel
+			</Button>
+		</a>
 		<Button type="submit" form="invoice-form" className="p-6 font-bold">
 			Save Changes
 		</Button>
 	</footer>
-	<script is:inline>
-		document
-			.querySelector("#cancel-edit-button")
-			.addEventListener("click", (e) => {
-				e.preventDefault();
-				window.history.back();
-			});
-	</script>
 </Metadata>
