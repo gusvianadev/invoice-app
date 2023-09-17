@@ -1,6 +1,7 @@
 ---
 import data from "@/assets/data.json";
 import InvoiceForm from "@/components/InvoiceForm";
+import { Button } from "@/components/ui/button";
 import EditLayout from "@/layouts/EditLayout.astro";
 
 const { id } = Astro.params;
@@ -12,4 +13,18 @@ export const prerender = false;
 
 <EditLayout id={id!}>
 	<InvoiceForm invoice={invoice} client:only="react" />
+	<footer
+		class="sticky bottom-0 hidden items-center justify-between rounded-sm bg-background p-4 xl:flex"
+	>
+		<Button
+			id="cancel-edit-button"
+			className="p-6 font-bold"
+			variant="destructive"
+		>
+			Cancel
+		</Button>
+		<Button type="submit" form="invoice-form" className="p-6 font-bold">
+			Save Changes
+		</Button>
+	</footer>
 </EditLayout>

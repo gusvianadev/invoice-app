@@ -19,8 +19,8 @@ import { ViewTransitions } from "astro:transitions";
 		<title>Invoice App</title>
 		<ViewTransitions />
 	</head>
-	<body class="dark grid h-full w-full grid-cols-1 overflow-hidden">
-		<header class="w-full">
+	<body class="dark grid h-full w-full grid-cols-1 overflow-hidden xl:flex">
+		<header class="w-full xl:h-full xl:w-fit">
 			<Nav transition:persist />
 		</header>
 		<slot />

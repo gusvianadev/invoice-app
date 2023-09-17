@@ -17,7 +17,7 @@ export default function ThemeIcon() {
 	return (
 		<Button
 			variant="ghost"
-			className="ml-auto h-full rounded-none px-6 hover:bg-navbar"
+			className="ml-auto h-full rounded-none px-6 hover:bg-navbar xl:mt-auto xl:mb-3 xl:h-fit"
 			onClick={() => {
 				if (theme === "light") {
 					setTheme("dark");

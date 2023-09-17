@@ -4,14 +4,18 @@ import avatar from "@/assets/img/image-avatar.jpg";
 import ThemeIcon from "./ThemeIcon";
 ---
 
-<nav class="flex h-full items-center justify-between bg-navbar">
+<nav class="flex h-full items-center justify-between bg-navbar xl:flex-col">
 	<a href="/">
 		<SiteLogo />
 	</a>
 	<ThemeIcon client:only="react" />
 	<div
-		class="flex items-center self-stretch border-l border-l-white border-opacity-20 px-4"
+		class="flex items-center self-stretch border-l border-l-white border-opacity-20 px-4 xl:border-t xl:border-l-0 xl:border-t-white xl:border-opacity-20 xl:py-4 xl:px-0"
 	>
-		<img src={avatar.src} alt="user avatar" class="h-9 w-9 rounded-full" />
+		<img
+			src={avatar.src}
+			alt="user avatar"
+			class="h-9 w-9 rounded-full xl:mx-auto"
+		/>
 	</div>
 </nav>

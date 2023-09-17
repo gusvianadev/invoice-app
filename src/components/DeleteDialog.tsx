@@ -21,7 +21,7 @@ export default function DeleteDialog({ id }: Props) {
 					Delete
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="max-w-[90%] rounded-lg">
+			<DialogContent className="rounded-lg">
 				<DialogHeader>
 					<DialogTitle>Confirm Deletion</DialogTitle>
 					<DialogDescription>

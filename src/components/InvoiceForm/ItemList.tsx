@@ -23,11 +23,11 @@ export default function ItemList({ control }: Props) {
 	});
 
 	return (
-		<div className="flex w-full flex-col gap-10">
+		<div className="col-span-full flex flex-col gap-10">
 			{fields.map((item, index) => {
 				return (
 					<div
-						className="grid grid-cols-[1fr,2fr,3fr] gap-3"
+						className="grid grid-cols-[1fr,2fr,3fr] gap-3 md:grid-cols-[4fr,1fr,2fr,2fr]"
 						key={item.id}
 					>
 						<FormField
@@ -35,7 +35,7 @@ export default function ItemList({ control }: Props) {
 							name={`items.${index}.name`}
 							render={({ field }) => {
 								return (
-									<FormItem className="col-span-full">
+									<FormItem className="col-span-full md:col-span-1">
 										<FormLabel
 											htmlFor={`items.${index}.name`}
 										>
@@ -125,13 +125,15 @@ export default function ItemList({ control }: Props) {
 													)
 												}
 												type="number"
-												step=".01"
+												disabled
+												className="border-none bg-transparent"
 											/>
 											<Button
 												onClick={() => {
 													remove(index);
 												}}
 												variant="ghost"
+												className="hover:bg-transparent hover:text-destructive"
 											>
 												<Trash />
 											</Button>
@@ -155,6 +157,14 @@ export default function ItemList({ control }: Props) {
 						price: 0,
 						total: 0,
 					});
+					setTimeout(() => {
+						// last child of the <main> tag. Scroll to the bottom of the element
+						const element = document.querySelector(
+							"main > *:last-child"
+						)!;
+
+						element.scrollTop = element.scrollHeight;
+					}, 0);
 				}}
 			>
 				<Plus

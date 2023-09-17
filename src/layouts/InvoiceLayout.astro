@@ -16,16 +16,20 @@ const { id } = Astro.props;
 		transition:animate="slide"
 		class="flex flex-col gap-5 overflow-hidden pt-5"
 	>
-		<div class="flex items-center justify-between px-5">
-			<a rel="prefetch" href="/" class="-ml-2">
+		<div
+			class="mx-auto flex w-full max-w-3xl items-center justify-between px-5 lg:px-0"
+		>
+			<a rel="prefetch" href="javascript:history.back()" class="-ml-2">
 				<span class="flex py-5 pr-5">
 					<ChevronLeft className="stroke-primary pb-1" />
 					 Go back
 				</span>
 			</a>
 		</div>
-		<div class="flex grow flex-col gap-3 overflow-y-auto px-5 pb-5">
-			<slot />
+		<div class="mb-5 flex grow justify-center overflow-y-auto px-5">
+			<div class="flex max-w-3xl grow flex-col gap-3">
+				<slot />
+			</div>
 		</div>
 	</main>
 	<footer

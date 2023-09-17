@@ -26,7 +26,7 @@ export default function DatePicker({
 				<FormControl>
 					<Button
 						variant="outline"
-						className="w-full justify-between text-left font-normal text-muted-foreground"
+						className="rounded-xs w-full justify-between text-left font-normal text-muted-foreground"
 						disabled={disabled}
 					>
 						<span>

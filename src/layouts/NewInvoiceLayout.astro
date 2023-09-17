@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button";
 		transition:animate="slide"
 		class="flex flex-col gap-5 overflow-hidden pt-5"
 	>
-		<div class="flex flex-col items-start px-5">
-			<a rel="prefetch" href="/" class="-ml-2">
+		<div
+			class="mx-auto flex w-full max-w-3xl flex-col items-start px-5 lg:px-0"
+		>
+			<a rel="prefetch" href="javascript:history.back()" class="-ml-2">
 				<span class="flex py-5 pr-5">
 					<ChevronLeft className="stroke-primary pb-1" />
 					 Go back
@@ -18,13 +20,17 @@ import { Button } from "@/components/ui/button";
 			</a>
 			<h2>New Invoice</h2>
 		</div>
-		<div class="flex grow flex-col gap-3 overflow-y-auto px-5 pb-5">
-			<slot />
+		<div class="mb-5 flex grow justify-center overflow-y-auto px-5">
+			<div class="flex max-w-3xl grow flex-col gap-3">
+				<slot />
+			</div>
 		</div>
 	</main>
-	<footer class="flex items-center justify-between bg-background p-4">
+	<footer
+		class="flex items-center justify-between bg-background p-4 xl:hidden"
+	>
 		<Button className="p-6 font-bold" variant="destructive">
-			<a rel="prefetch" href="/">Discard</a>
+			<a rel="prefetch" href="javascript:history.back()">Discard</a>
 		</Button>
 		<Button
 			type="submit"

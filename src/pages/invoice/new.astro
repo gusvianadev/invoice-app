@@ -1,8 +1,38 @@
 ---
 import InvoiceForm from "@/components/InvoiceForm";
+import { Button } from "@/components/ui/button";
 import NewInvoiceLayout from "@/layouts/NewInvoiceLayout.astro";
 ---
 
 <NewInvoiceLayout>
 	<InvoiceForm client:load />
+	<footer
+		class="sticky bottom-0 hidden items-center justify-between rounded-sm bg-background p-4 xl:flex"
+	>
+		<Button
+			id="discard-btn"
+			className="p-6 font-bold"
+			variant="destructive"
+		>
+			Discard
+		</Button>
+		<Button
+			type="submit"
+			form="invoice-form"
+			className="p-6 font-bold"
+			variant="secondary"
+		>
+			Save as Draft
+		</Button>
+		<Button type="submit" form="invoice-form" className="p-6 font-bold">
+			Save & Send
+		</Button>
+		<script is:inline>
+			document
+				.getElementById("discard-btn")
+				.addEventListener("click", () => {
+					history.back();
+				});
+		</script>
+	</footer>
 </NewInvoiceLayout>

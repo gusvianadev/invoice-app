@@ -65,18 +65,19 @@ export default function ProfileForm({ invoice }: Props) {
 		{
 			id: "city",
 			label: "City",
-			class: "w-[45%]",
+			class: "col-span-1",
 			value: invoice?.senderAddress.city,
 		},
 		{
 			id: "postCode",
 			label: "Post Code",
-			class: "w-[45%]",
+			class: "col-span-1",
 			value: invoice?.senderAddress.postCode,
 		},
 		{
 			id: "country",
 			label: "Country",
+			class: "md:col-span-1",
 			value: invoice?.senderAddress.country,
 		},
 	];
@@ -100,18 +101,19 @@ export default function ProfileForm({ invoice }: Props) {
 		{
 			id: "city",
 			label: "City",
-			class: "w-[45%]",
+			class: "col-span-1",
 			value: invoice?.clientAddress.city,
 		},
 		{
 			id: "postCode",
 			label: "Post Code",
-			class: "w-[45%]",
+			class: "col-span-1",
 			value: invoice?.clientAddress.postCode,
 		},
 		{
 			id: "country",
 			label: "Country",
+			class: "md:col-span-1",
 			value: invoice?.clientAddress.country,
 		},
 	];
@@ -119,11 +121,11 @@ export default function ProfileForm({ invoice }: Props) {
 	return (
 		<Form {...form}>
 			<form
-				className="flex flex-wrap gap-5"
+				className="grid grid-cols-2 gap-5 md:grid-cols-3"
 				onSubmit={form.handleSubmit(onSubmit)}
 				id="invoice-form"
 			>
-				<h3 className="-mb-3 w-full text-primary">Bill From</h3>
+				<h3 className="col-span-full -mb-3 text-primary">Bill From</h3>
 				{billFrom.map((item) => {
 					return (
 						<FormField
@@ -132,7 +134,7 @@ export default function ProfileForm({ invoice }: Props) {
 							key={`senderAddress.${item.id}`}
 							render={({ field }) => (
 								<FormItem
-									className={cn("w-full grow", item.class)}
+									className={cn("col-span-full", item.class)}
 								>
 									<FormLabel>{item.label}</FormLabel>
 									<FormControl>
@@ -144,7 +146,9 @@ export default function ProfileForm({ invoice }: Props) {
 						/>
 					);
 				})}
-				<h3 className="mt-4 -mb-3 w-full text-primary">Bill To</h3>
+				<h3 className="col-span-full mt-4 -mb-3 text-primary">
+					Bill To
+				</h3>
 				{billTo.map((item, i) => {
 					return (
 						<FormField
@@ -157,7 +161,7 @@ export default function ProfileForm({ invoice }: Props) {
 							key={`clientAddress.${item.id}`}
 							render={({ field }) => (
 								<FormItem
-									className={cn("w-full grow", item.class)}
+									className={cn("col-span-full", item.class)}
 								>
 									<FormLabel>{item.label}</FormLabel>
 									<FormControl>
@@ -169,48 +173,52 @@ export default function ProfileForm({ invoice }: Props) {
 						/>
 					);
 				})}
-				<FormField
-					control={form.control}
-					name="createdAt"
-					render={({ field }) => (
-						<FormItem className="w-full grow">
-							<FormLabel
-								className={
-									invoice !== undefined ? "text-gray-600" : ""
-								}
-							>
-								Invoice Date
-							</FormLabel>
-							<DatePicker
-								onChange={field.onChange}
-								disabled={invoice !== undefined}
-								defaultValue={field.value}
-							/>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="paymentTerms"
-					render={({ field }) => (
-						<FormItem className="w-full">
-							<FormLabel>Payment Terms</FormLabel>
-							<FormControl>
-								<Select
+				<div className="col-span-full grid gap-5 md:grid-cols-2">
+					<FormField
+						control={form.control}
+						name="createdAt"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel
+									className={
+										invoice !== undefined
+											? "text-gray-600"
+											: ""
+									}
+								>
+									Invoice Date
+								</FormLabel>
+								<DatePicker
 									onChange={field.onChange}
-									value={field.value}
+									disabled={invoice !== undefined}
+									defaultValue={field.value}
 								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="paymentTerms"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Payment Terms</FormLabel>
+								<FormControl>
+									<Select
+										onChange={field.onChange}
+										value={field.value}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
 				<FormField
 					control={form.control}
 					name="description"
 					render={({ field }) => (
-						<FormItem className="w-full grow">
+						<FormItem className="col-span-full">
 							<FormLabel>Project / Description</FormLabel>
 							<FormControl>
 								<Input {...field} />
@@ -219,7 +227,7 @@ export default function ProfileForm({ invoice }: Props) {
 						</FormItem>
 					)}
 				/>
-				<h3 className="mt-4 w-full text-lg text-gray-700 dark:text-gray-400">
+				<h3 className="col-span-full mt-4 text-lg text-gray-700 dark:text-gray-400">
 					Item List
 				</h3>
 				<ItemList control={form.control} />
