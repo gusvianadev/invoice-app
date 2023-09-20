@@ -6,12 +6,6 @@ type Props = {
 };
 
 const { status } = Astro.props;
-
-const dotClass = {
-	paid: "stroke-green-600 dark:stroke-grenn-400",
-	pending: "stroke-orange-600 dark:stroke-orange-400",
-	draft: "stroke-gray-600 dark:stroke-gray-200",
-};
 ---
 
 <div
@@ -23,7 +17,11 @@ const dotClass = {
 	class="flex h-10 w-28 items-center justify-start rounded-md bg-opacity-20 pl-4"
 >
 	<Dot
-		className={dotClass[status as keyof typeof dotClass]}
+		className={status === "paid"
+			? "stroke-green-600 dark:stroke-green-400"
+			: status === "pending"
+			? "stroke-orange-600 dark:stroke-orange-400"
+			: "stroke-gray-600 dark:stroke-gray-200"}
 		strokeWidth={6}
 	/>
 	<p
