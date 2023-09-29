@@ -119,7 +119,7 @@ export const prerender = false;
 					}
 				</CardContent>
 				<CardContent className="hidden md:block">
-					<AmountDueTable items={invoice.items} />
+					<AmountDueTable client:only="react" items={invoice.items} />
 				</CardContent>
 				<CardFooter
 					className="bg-invoice-footer-total text-white p-5 rounded-b-md"
