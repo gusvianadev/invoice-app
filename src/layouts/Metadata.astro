@@ -2,6 +2,13 @@
 import "@/assets/global.css";
 import Nav from "@/components/Nav.astro";
 import { ViewTransitions } from "astro:transitions";
+import { Toaster } from "@/components/ui/toaster";
+
+type Props = {
+	isRedirect?: boolean;
+};
+
+const { isRedirect } = Astro.props;
 ---
 
 <html lang="en">
@@ -16,13 +23,18 @@ import { ViewTransitions } from "astro:transitions";
 		/>
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Invoice App</title>
+		<title>{isRedirect ? "Redirecting" : "Invoice App"}</title>
 		<ViewTransitions />
 	</head>
 	<body class="dark grid h-full w-full grid-cols-1 overflow-hidden xl:flex">
-		<header class="w-full xl:h-full xl:w-fit">
-			<Nav transition:persist />
-		</header>
+		{
+			!isRedirect && (
+				<header class="w-full xl:h-full xl:w-fit">
+					<Nav transition:persist />
+				</header>
+			)
+		}
 		<slot />
+		<Toaster transition:persist client:only="react" />
 	</body>
 </html>

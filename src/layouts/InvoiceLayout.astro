@@ -3,12 +3,14 @@ import { ChevronLeft } from "lucide-react";
 import Metadata from "@/layouts/Metadata.astro";
 import { Button } from "@/components/ui/button";
 import DeleteDialog from "@/components/DeleteDialog";
+import MarkAsPaidBtn from "@/components/MarkAsPaidBtn";
 
 type Props = {
 	id: string;
+	paid: boolean;
 };
 
-const { id } = Astro.props;
+const { id, paid } = Astro.props;
 ---
 
 <Metadata>
@@ -39,6 +41,6 @@ const { id } = Astro.props;
 			<Button className="p-6 font-bold" variant="secondary">Edit</Button>
 		</a>
 		<DeleteDialog id={id} client:only="react" />
-		<Button className="p-6 font-bold">Mark as Paid</Button>
+		<MarkAsPaidBtn client:only="react" id={id} paid={paid} />
 	</footer>
 </Metadata>

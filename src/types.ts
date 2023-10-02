@@ -27,7 +27,7 @@ export type Invoice = {
 	paymentTerms: number;
 	clientName: string;
 	clientEmail: string;
-	status: string;
+	status: "paid" | "pending" | "draft";
 	senderAddress: SenderAddress;
 	clientAddress: ClientAddress;
 	items: Item[];

@@ -1,77 +1,97 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import data from "@/assets/data.json";
 import StatusBadge from "@/components/StatusBadge.astro";
 import { Card, CardContent } from "@/components/ui/card";
-import { createDate, formatMoney, type Country } from "@/lib/utils";
+import { createDate, formatMoney, type Country, req } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import type { Invoice } from "@/types";
 
 export const prerender = false;
+
+const res = await req("", {
+	headers: {
+		cookie: Astro.request.headers.get("cookie") || "",
+	},
+});
+
+if (!res.ok) {
+	if (res.status === 401) {
+		return Astro.redirect("/login");
+	} else {
+		return Astro.redirect("/404");
+	}
+}
+
+const data: Invoice[] = (await res.json()) || [];
 ---
 
-<BaseLayout invoiceCount={data.length}>
-	{
-		data.map((invoice) => {
-			return (
-				<Card className="hover:border-primary">
-					<CardContent className="p-0">
-						<a
-							rel="prefetch"
-							href={`/invoice/${invoice.id}`}
-							id={invoice.id}
-							class="block cursor-pointer gap-3 p-5 md:hidden"
-						>
-							<span class="flex w-full items-center justify-between">
-								<h3 class="mb-3">
+{
+	data.length ? (
+		<BaseLayout invoiceCount={data.length}>
+			{data.map((invoice) => {
+				return (
+					<Card className="hover:border-primary">
+						<CardContent className="p-0">
+							<a
+								rel="prefetch"
+								href={`/invoice/${invoice.id}`}
+								id={invoice.id}
+								class="block cursor-pointer gap-3 p-5 md:hidden"
+							>
+								<span class="flex w-full items-center justify-between">
+									<h3 class="mb-3">
+										<span class="text-gray-400">#</span>
+										{invoice.id}
+									</h3>
+									<p>{invoice.clientName}</p>
+								</span>
+								<span class="flex w-full items-center justify-between">
+									<span>
+										<p class="text-gray-500 dark:text-gray-300">
+											Due {createDate(invoice.paymentDue)}
+										</p>
+										<p class="text-md font-bold">
+											{formatMoney(
+												invoice.total,
+												invoice.clientAddress
+													.country as Country
+											)}
+										</p>
+									</span>
+									<StatusBadge status={invoice.status} />
+								</span>
+							</a>
+							<a
+								rel="prefetch"
+								href={`/invoice/${invoice.id}`}
+								id={invoice.id}
+								class="hidden cursor-pointer items-center justify-between gap-3 p-5 md:flex"
+							>
+								<h3>
 									<span class="text-gray-400">#</span>
 									{invoice.id}
 								</h3>
+								<p class="text-gray-500 dark:text-gray-300">
+									Due {createDate(invoice.paymentDue)}
+								</p>
 								<p>{invoice.clientName}</p>
-							</span>
-							<span class="flex w-full items-center justify-between">
-								<span>
-									<p class="text-gray-500 dark:text-gray-300">
-										Due {createDate(invoice.paymentDue)}
-									</p>
-									<p class="text-md font-bold">
-										{formatMoney(
-											invoice.total,
-											invoice.clientAddress
-												.country as Country
-										)}
-									</p>
-								</span>
-								<StatusBadge status={invoice.status} />
-							</span>
-						</a>
-						<a
-							rel="prefetch"
-							href={`/invoice/${invoice.id}`}
-							id={invoice.id}
-							class="hidden cursor-pointer items-center justify-between gap-3 p-5 md:flex"
-						>
-							<h3>
-								<span class="text-gray-400">#</span>
-								{invoice.id}
-							</h3>
-							<p class="text-gray-500 dark:text-gray-300">
-								Due {createDate(invoice.paymentDue)}
-							</p>
-							<p>{invoice.clientName}</p>
-							<p class="text-md font-bold">
-								{formatMoney(
-									invoice.total,
-									invoice.clientAddress.country as Country
-								)}
-							</p>
-							<div class="flex items-center gap-2">
-								<StatusBadge status={invoice.status} />
-								<ChevronRight className="stroke-primary" />
-							</div>
-						</a>
-					</CardContent>
-				</Card>
-			);
-		})
-	}
-</BaseLayout>
+								<p class="text-md font-bold">
+									{formatMoney(
+										invoice.total,
+										invoice.clientAddress.country as Country
+									)}
+								</p>
+								<div class="flex items-center gap-2">
+									<StatusBadge status={invoice.status} />
+									<ChevronRight className="stroke-primary" />
+								</div>
+							</a>
+						</CardContent>
+					</Card>
+				);
+			})}
+		</BaseLayout>
+	) : (
+		<BaseLayout invoiceCount={0} />
+	)
+}

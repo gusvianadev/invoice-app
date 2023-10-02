@@ -27,7 +27,14 @@ export default function AmountDueTable({ items }: Props) {
 			<TableBody>
 				{items.map((item) => {
 					return (
-						<TableRow>
+						<TableRow
+							key={
+								item.name +
+								item.price +
+								item.total +
+								item.quantity
+							}
+						>
 							<TableCell>{item.name}</TableCell>
 							<TableCell>{item.quantity}</TableCell>
 							<TableCell>

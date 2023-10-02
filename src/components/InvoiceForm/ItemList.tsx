@@ -14,9 +14,10 @@ import formSchema from "./schema";
 
 type Props = {
 	control: Control<z.infer<typeof formSchema>>;
+	watch: any;
 };
 
-export default function ItemList({ control }: Props) {
+export default function ItemList({ control, watch }: Props) {
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: "items",
@@ -63,11 +64,11 @@ export default function ItemList({ control }: Props) {
 										<FormControl>
 											<Input
 												{...field}
-												onChange={(ev) =>
+												onChange={(ev) => {
 													onChange(
 														Number(ev.target.value)
-													)
-												}
+													);
+												}}
 												type="number"
 												step=".01"
 											/>
@@ -91,11 +92,11 @@ export default function ItemList({ control }: Props) {
 										<FormControl>
 											<Input
 												{...field}
-												onChange={(ev) =>
+												onChange={(ev) => {
 													onChange(
 														Number(ev.target.value)
-													)
-												}
+													);
+												}}
 												type="number"
 												step=".01"
 											/>
@@ -126,6 +127,15 @@ export default function ItemList({ control }: Props) {
 												}
 												type="number"
 												disabled
+												value={
+													watch(
+														`items.${index}.quantity`
+													) *
+													watch(
+														`items.${index}.price`
+													)
+												}
+												step=".01"
 												className="border-none bg-transparent"
 											/>
 											<Button
@@ -158,7 +168,6 @@ export default function ItemList({ control }: Props) {
 						total: 0,
 					});
 					setTimeout(() => {
-						// last child of the <main> tag. Scroll to the bottom of the element
 						const element = document.querySelector(
 							"main > *:last-child"
 						)!;

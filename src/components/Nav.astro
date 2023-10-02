@@ -1,6 +1,6 @@
 ---
+import Avatar from "./Avatar";
 import SiteLogo from "./SiteLogo.astro";
-import avatar from "@/assets/img/image-avatar.jpg";
 import ThemeIcon from "./ThemeIcon";
 ---
 
@@ -10,12 +10,8 @@ import ThemeIcon from "./ThemeIcon";
 	</a>
 	<ThemeIcon client:only="react" />
 	<div
-		class="flex items-center self-stretch border-l border-l-white border-opacity-20 px-4 xl:border-t xl:border-l-0 xl:border-t-white xl:border-opacity-20 xl:py-4 xl:px-0"
+		class="flex items-center self-stretch border-l border-l-white border-opacity-20 xl:border-l-0 xl:border-t xl:border-t-white xl:border-opacity-20 xl:px-0"
 	>
-		<img
-			src={avatar.src}
-			alt="user avatar"
-			class="h-9 w-9 rounded-full xl:mx-auto"
-		/>
+		<Avatar client:only="react" />
 	</div>
 </nav>

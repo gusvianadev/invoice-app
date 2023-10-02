@@ -8,12 +8,15 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { useToast } from "./ui/use-toast";
+import { req } from "@/lib/utils";
 
 type Props = {
 	id: string;
 };
 
 export default function DeleteDialog({ id }: Props) {
+	const { toast } = useToast();
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
@@ -35,7 +38,27 @@ export default function DeleteDialog({ id }: Props) {
 							Cancel
 						</Button>
 					</DialogTrigger>
-					<Button size="lg" variant="destructive">
+					<Button
+						size="lg"
+						variant="destructive"
+						onClick={async () => {
+							try {
+								const res = await req(`/invoice/${id}`, {
+									method: "DELETE",
+								});
+
+								if (res.ok) {
+									window.history.back();
+								}
+							} catch (err) {
+								toast({
+									title: "Whoops!",
+									description: "Something went wrong.",
+									variant: "destructive",
+								});
+							}
+						}}
+					>
 						Delete
 					</Button>
 				</DialogFooter>

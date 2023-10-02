@@ -17,6 +17,10 @@ export function createDate(dateString: string | number) {
 }
 
 const currencies = {
+	"Argentina": {
+		countryCode: "es-AR",
+		currency: "ARS",
+	},
 	"United Kingdom": {
 		countryCode: "en-GB",
 		currency: "GBP",
@@ -30,11 +34,32 @@ const currencies = {
 export type Country = keyof typeof currencies;
 
 export function formatMoney(amount: number, country?: keyof typeof currencies) {
-	const currentCurrency = currencies[country || "United States of America"];
+	const currentCurrency =
+		currencies[country || "United States of America"] ||
+		currencies["United States of America"];
 
 	return new Intl.NumberFormat(currentCurrency.countryCode || "en-US", {
 		style: "currency",
 		currency: currentCurrency.currency || "USD",
 		minimumFractionDigits: 2,
 	}).format(amount);
+}
+
+export async function req(
+	path: string,
+	props?: {
+		body?: string;
+		method?: Request["method"];
+		headers?: { [key: string]: string };
+	}
+) {
+	const opts: RequestInit = {};
+	if (props?.method) opts.method = props.method;
+	if (props?.body) opts.body = props.body;
+	if (props?.headers) opts.headers = props.headers;
+
+	return await fetch(`${import.meta.env.PUBLIC_ENDPOINT}${path}`, {
+		credentials: "include",
+		...opts,
+	});
 }

@@ -1,12 +1,27 @@
 ---
-import data from "@/assets/data.json";
 import InvoiceForm from "@/components/InvoiceForm";
 import { Button } from "@/components/ui/button";
 import EditLayout from "@/layouts/EditLayout.astro";
+import { req } from "@/lib/utils";
+import type { Invoice } from "@/types";
 
 const { id } = Astro.params;
 
-const invoice = data.find((item) => item.id === id)!;
+const res = await req(`/invoice/${id}`, {
+	headers: {
+		cookie: Astro.request.headers.get("cookie") || "",
+	},
+});
+
+if (!res.ok) {
+	if (res.status === 401) {
+		return Astro.redirect("/login", 401);
+	} else {
+		return Astro.redirect("/404", 404);
+	}
+}
+
+const invoice: Invoice = await res.json();
 
 export const prerender = false;
 ---

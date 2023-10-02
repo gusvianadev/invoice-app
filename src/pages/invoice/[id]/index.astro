@@ -9,20 +9,35 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import data from "@/assets/data.json";
-import { createDate, formatMoney, type Country } from "@/lib/utils";
+import { createDate, formatMoney, type Country, req } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import DeleteDialog from "@/components/DeleteDialog";
 import AmountDueTable from "@/components/AmountDueTable";
+import type { Invoice } from "@/types";
+import MarkAsPaidBtn from "@/components/MarkAsPaidBtn";
 
 const { id } = Astro.params;
 
-const invoice = data.find((item) => item.id === id)!;
+const res = await req(`/invoice/${id}`, {
+	headers: {
+		cookie: Astro.request.headers.get("cookie") || "",
+	},
+});
+
+if (!res.ok) {
+	if (res.status === 401) {
+		return Astro.redirect("/login", 401);
+	} else {
+		return Astro.redirect("/404", 404);
+	}
+}
+
+const invoice: Invoice = await res.json();
 
 export const prerender = false;
 ---
 
-<InvoiceLayout id={invoice.id}>
+<InvoiceLayout id={invoice.id} paid={invoice.status === "paid"}>
 	<Card className="xl:px-6">
 		<CardContent className="flex items-center gap-5 justify-between">
 			<p>Status</p>
@@ -37,8 +52,12 @@ export const prerender = false;
 						Edit
 					</Button>
 				</a>
-				<DeleteDialog id={id!} client:only="react" />
-				<Button className="p-6 font-bold">Mark as Paid</Button>
+				<DeleteDialog id={invoice.id} client:only="react" />
+				<MarkAsPaidBtn
+					client:only="react"
+					id={invoice.id}
+					paid={invoice.status === "paid"}
+				/>
 			</div>
 		</CardContent>
 	</Card>

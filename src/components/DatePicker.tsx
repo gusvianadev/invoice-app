@@ -43,7 +43,6 @@ export default function DatePicker({
 					mode="single"
 					selected={defaultValue ? new Date(defaultValue) : undefined}
 					onSelect={(ev) => {
-						console.log("CHANGE");
 						onChange(ev?.getTime());
 					}}
 					disabled={(date) =>

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { cn } from "@/lib/utils";
+import { cn, req } from "@/lib/utils";
 import Select from "@/components/Select";
 import DatePicker from "@/components/DatePicker";
 import ItemList from "./ItemList";
@@ -16,16 +16,15 @@ import { Input } from "@/components/ui/input";
 import { type Invoice } from "@/types";
 import { useForm } from "react-hook-form";
 import formSchema from "./schema";
+import { useToast } from "../ui/use-toast";
 
 type Props = {
 	invoice?: Invoice;
 };
 
-const defaultInvoice: Invoice = {
-	id: "",
+const defaultInvoice: Omit<Invoice, "id" | "total" | "paymentDue"> = {
 	createdAt: Date.now(),
-	paymentDue: Date.now(),
-	status: "",
+	status: "pending",
 	description: "",
 	paymentTerms: 1,
 	clientName: "",
@@ -43,17 +42,41 @@ const defaultInvoice: Invoice = {
 		country: "",
 	},
 	items: [],
-	total: 0,
 };
 
 export default function ProfileForm({ invoice }: Props) {
+	const { toast } = useToast();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: invoice || defaultInvoice,
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
+	async function onSubmit(values: z.infer<typeof formSchema>, ev: any) {
+		try {
+			const isDraft = ev.nativeEvent.submitter.id === "draft-btn";
+
+			// @ts-ignore: next-line
+			values.status = isDraft ? "draft" : "pending";
+
+			const res = await req(
+				`/invoice${invoice ? `/${invoice.id}` : ""}`,
+				{
+					method: invoice ? "PATCH" : "POST",
+					body: JSON.stringify(values),
+				}
+			);
+
+			if (res.ok) {
+				window.history.back();
+			}
+		} catch (err) {
+			toast({
+				title: "Whoops!",
+				description: "Something went wrong",
+				variant: "destructive",
+			});
+		}
 	}
 
 	const billFrom = [
@@ -85,7 +108,7 @@ export default function ProfileForm({ invoice }: Props) {
 	const billTo = [
 		{
 			id: "clientName",
-			label: "Client's Name'",
+			label: "Client's Name",
 			value: invoice?.clientName,
 		},
 		{
@@ -146,7 +169,7 @@ export default function ProfileForm({ invoice }: Props) {
 						/>
 					);
 				})}
-				<h3 className="col-span-full mt-4 -mb-3 text-primary">
+				<h3 className="col-span-full -mb-3 mt-4 text-primary">
 					Bill To
 				</h3>
 				{billTo.map((item, i) => {
@@ -230,7 +253,7 @@ export default function ProfileForm({ invoice }: Props) {
 				<h3 className="col-span-full mt-4 text-lg text-gray-700 dark:text-gray-400">
 					Item List
 				</h3>
-				<ItemList control={form.control} />
+				<ItemList control={form.control} watch={form.watch} />
 			</form>
 		</Form>
 	);

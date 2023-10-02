@@ -23,7 +23,7 @@ export default function Select({ value, onChange }: Props) {
 		<Sel
 			name="payment-terms"
 			defaultValue={value?.toString() || "1"}
-			onValueChange={() => onChange(Number(value))}
+			onValueChange={(val) => onChange(Number(val))}
 			required
 		>
 			<SelectTrigger className="w-full">
