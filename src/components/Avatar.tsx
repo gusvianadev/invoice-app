@@ -13,7 +13,7 @@ export default function Avatar() {
 				<img
 					src={src}
 					alt="user avatar"
-					className="mx-4 h-9 w-9 rounded-full xl:mx-auto"
+					className="mx-3 h-9 w-9 rounded-full xl:mx-auto xl:my-4"
 				/>
 			</PopoverTrigger>
 			<PopoverContent className="flex w-full flex-col">

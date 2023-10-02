@@ -12,16 +12,16 @@ export default function Redirect() {
 			const user = await res.json();
 			localStorage.setItem("userID", user.id);
 			localStorage.setItem("avatar", user.picture);
-			location.href = "/";
+			// location.href = "/";
 		} else {
-			location.href = "/login";
+			// location.href = "/login";
 		}
 	}
 	useEffect(() => {
 		redirect();
 	});
 	return (
-		<div className="row-span-full flex flex-col items-center justify-center">
+		<div className="row-span-full mx-auto flex flex-col items-center justify-center">
 			<img src={gorilla.src} />
 		</div>
 	);

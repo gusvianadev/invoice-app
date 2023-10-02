@@ -4,7 +4,10 @@ import SiteLogo from "./SiteLogo.astro";
 import ThemeIcon from "./ThemeIcon";
 ---
 
-<nav class="flex h-full items-center justify-between bg-navbar xl:flex-col">
+<nav
+	transition:persist
+	class="flex h-full items-center justify-between bg-navbar xl:flex-col"
+>
 	<a href="/">
 		<SiteLogo />
 	</a>
