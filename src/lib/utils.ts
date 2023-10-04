@@ -53,18 +53,10 @@ export async function req(
 		headers?: { [key: string]: string };
 	}
 ) {
-	const opts: RequestInit = {
-		headers: {
-			"Custom-Header": "Hello World",
-		},
-	};
+	const opts: RequestInit = {};
 	if (props?.method) opts.method = props.method;
 	if (props?.body) opts.body = props.body;
-	if (props?.headers)
-		opts.headers = {
-			...opts.headers,
-			...props.headers,
-		};
+	if (props?.headers) opts.headers = props.headers;
 
 	return await fetch(`${import.meta.env.PUBLIC_ENDPOINT}${path}`, {
 		credentials: "include",
