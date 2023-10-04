@@ -11,7 +11,7 @@ export default function SignIn() {
 					const res = await req("/login/google");
 
 					if (res.ok) {
-						location.href = await res.json();
+						// location.href = await res.json();
 					} else {
 						throw new Error();
 					}
