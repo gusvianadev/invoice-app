@@ -12,9 +12,9 @@ export default function Redirect() {
 			const user = await res.json();
 			localStorage.setItem("userID", user.id);
 			localStorage.setItem("avatar", user.picture);
-			// location.href = "/";
+			location.href = "/";
 		} else {
-			// location.href = "/login";
+			location.href = "/login";
 		}
 	}
 	useEffect(() => {
