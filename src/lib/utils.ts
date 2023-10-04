@@ -57,6 +57,7 @@ export async function req(
 	if (props?.method) opts.method = props.method;
 	if (props?.body) opts.body = props.body;
 	if (props?.headers) opts.headers = props.headers;
+	console.log(props?.headers);
 
 	return await fetch(`${import.meta.env.PUBLIC_ENDPOINT}${path}`, {
 		credentials: "include",
