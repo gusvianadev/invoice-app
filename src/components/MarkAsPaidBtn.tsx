@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "./ui/use-toast";
-import { req } from "@/lib/utils";
 
 type Props = {
 	id: string;
@@ -16,7 +15,7 @@ export default function MarkAsPaidBtn({ id, paid }: Props) {
 			className="p-6 font-bold"
 			onClick={async () => {
 				try {
-					const res = await req(`/invoice/${id}/paid`, {
+					const res = await fetch(`/api/invoice/${id}/paid`, {
 						method: "PATCH",
 					});
 

@@ -2,6 +2,8 @@ import { invoices } from "@/db/schema";
 import type { APIRoute } from "astro";
 import { and, eq } from "drizzle-orm";
 
+export const prerender = false;
+
 export const PATCH: APIRoute = async ({ locals, params }) => {
 	if (!params.id) {
 		return new Response(null, {

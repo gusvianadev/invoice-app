@@ -11,14 +11,30 @@ import {
 import { ChevronRight } from "lucide-react";
 import { db } from "@/db";
 import { invoices } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 
 export const prerender = false;
+const filter = Astro.url.searchParams.get("filter");
 
-const data = await db
+let data;
+const conditions = [];
+if (filter) {
+	if (filter.includes("paid")) {
+		conditions.push(eq(invoices.status, "paid"));
+	}
+
+	if (filter.includes("pending")) {
+		conditions.push(eq(invoices.status, "pending"));
+	}
+
+	if (filter.includes("draft")) {
+		conditions.push(eq(invoices.status, "draft"));
+	}
+}
+data = await db
 	.select()
 	.from(invoices)
-	.where(eq(invoices.userID, Astro.locals.user.id));
+	.where(and(eq(invoices.userID, Astro.locals.user.id), or(...conditions)));
 ---
 
 {
