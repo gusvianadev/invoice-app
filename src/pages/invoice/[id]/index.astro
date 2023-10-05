@@ -9,30 +9,32 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { createDate, formatMoney, type Country, req } from "@/lib/utils";
+import {
+	createDate,
+	formatMoney,
+	type Country,
+	parseInvoice,
+} from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import DeleteDialog from "@/components/DeleteDialog";
 import AmountDueTable from "@/components/AmountDueTable";
-import type { Invoice } from "@/types";
 import MarkAsPaidBtn from "@/components/MarkAsPaidBtn";
+import { and, eq } from "drizzle-orm";
+import { invoices } from "@/db/schema";
 
 const { id } = Astro.params;
 
-const res = await req(`/invoice/${id}`, {
-	headers: {
-		cookie: Astro.request.headers.get("cookie") || "",
-	},
+const userID = Astro.locals.user.id;
+
+const data = await Astro.locals.db.query.invoices.findFirst({
+	where: and(eq(invoices.userID, userID), eq(invoices.id, id!)),
 });
 
-if (!res.ok) {
-	if (res.status === 401) {
-		return Astro.redirect("/login", 401);
-	} else {
-		return Astro.redirect("/404", 404);
-	}
+if (!data) {
+	return Astro.redirect("/?error=404");
 }
 
-const invoice: Invoice = await res.json();
+const invoice = parseInvoice(data);
 
 export const prerender = false;
 ---

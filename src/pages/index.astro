@@ -2,33 +2,31 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StatusBadge from "@/components/StatusBadge.astro";
 import { Card, CardContent } from "@/components/ui/card";
-import { createDate, formatMoney, type Country, req } from "@/lib/utils";
+import {
+	createDate,
+	formatMoney,
+	type Country,
+	parseInvoice,
+} from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
-import type { Invoice } from "@/types";
+import { db } from "@/db";
+import { invoices } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export const prerender = false;
 
-const res = await req("", {
-	headers: {
-		cookie: Astro.request.headers.get("cookie") || "",
-	},
-});
-
-if (!res.ok) {
-	if (res.status === 401) {
-		return Astro.redirect("/login");
-	} else {
-		return Astro.redirect("/404");
-	}
-}
-
-const data: Invoice[] = (await res.json()) || [];
+const data = await db
+	.select()
+	.from(invoices)
+	.where(eq(invoices.userID, Astro.locals.user.id));
 ---
 
 {
 	data.length ? (
 		<BaseLayout invoiceCount={data.length}>
-			{data.map((invoice) => {
+			{data.map((item) => {
+				const invoice = parseInvoice(item);
+
 				return (
 					<Card className="hover:border-primary">
 						<CardContent className="p-0">

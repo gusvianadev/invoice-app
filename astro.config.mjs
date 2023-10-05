@@ -7,9 +7,14 @@ import prefetch from "@astrojs/prefetch";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), tailwind({
-    applyBaseStyles: false
-  }), prefetch()],
-  output: "hybrid",
-  adapter: vercel()
+	site: "https://invoice-app-gusvianadev.vercel.app/",
+	integrations: [
+		react(),
+		tailwind({
+			applyBaseStyles: false,
+		}),
+		prefetch(),
+	],
+	output: "hybrid",
+	adapter: vercel(),
 });

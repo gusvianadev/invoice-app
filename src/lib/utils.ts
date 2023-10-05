@@ -1,3 +1,5 @@
+import type { Invoice } from "@/db/schema/invoices";
+import { type Invoice as ClientInvoice } from "@/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -45,22 +47,33 @@ export function formatMoney(amount: number, country?: keyof typeof currencies) {
 	}).format(amount);
 }
 
-export async function req(
-	path: string,
-	props?: {
-		body?: string;
-		method?: Request["method"];
-		headers?: { [key: string]: string };
-	}
-) {
-	const opts: RequestInit = {};
-	if (props?.method) opts.method = props.method;
-	if (props?.body) opts.body = props.body;
-	if (props?.headers) opts.headers = props.headers;
-	console.log(props?.headers);
+export function parseInvoice(invoice: Invoice) {
+	const newInvoice = Object.entries(invoice).reduce((acc, [key, value]) => {
+		if (value === null) {
+			return {
+				...acc,
+				[key]: "",
+			};
+		}
 
-	return await fetch(`${import.meta.env.PUBLIC_ENDPOINT}${path}`, {
-		credentials: "include",
-		...opts,
-	});
+		return {
+			...acc,
+			[key]: value,
+		};
+	}, {} as Invoice);
+	return {
+		...newInvoice,
+		senderAddress: {
+			street: newInvoice.senderStreet,
+			city: newInvoice.senderCity,
+			postCode: newInvoice.senderPostCode,
+			country: newInvoice.senderCountry,
+		},
+		clientAddress: {
+			street: newInvoice.clientStreet,
+			city: newInvoice.clientCity,
+			postCode: newInvoice.clientPostCode,
+			country: newInvoice.clientCountry,
+		},
+	} as ClientInvoice;
 }

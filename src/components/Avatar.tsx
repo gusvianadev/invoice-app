@@ -1,4 +1,3 @@
-import { req } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useToast } from "./ui/use-toast";
@@ -19,7 +18,7 @@ export default function Avatar() {
 			<PopoverContent className="flex w-full flex-col">
 				<Button
 					onClick={async () => {
-						const res = await req("/logout", {
+						const res = await fetch("/api/auth/logout", {
 							method: "POST",
 						});
 

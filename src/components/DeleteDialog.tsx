@@ -9,7 +9,6 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "./ui/use-toast";
-import { req } from "@/lib/utils";
 
 type Props = {
 	id: string;
@@ -43,7 +42,7 @@ export default function DeleteDialog({ id }: Props) {
 						variant="destructive"
 						onClick={async () => {
 							try {
-								const res = await req(`/invoice/${id}`, {
+								const res = await fetch(`/api/invoice/${id}`, {
 									method: "DELETE",
 								});
 

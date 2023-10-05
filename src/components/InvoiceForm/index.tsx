@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { cn, req } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Select from "@/components/Select";
 import DatePicker from "@/components/DatePicker";
 import ItemList from "./ItemList";
@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { type Invoice } from "@/types";
 import { useForm } from "react-hook-form";
-import formSchema from "./schema";
+import formSchema, { type InvoiceSchema } from "./schema";
 import { useToast } from "../ui/use-toast";
 
 type Props = {
@@ -47,7 +47,8 @@ const defaultInvoice: Omit<Invoice, "id" | "total" | "paymentDue"> = {
 export default function ProfileForm({ invoice }: Props) {
 	const { toast } = useToast();
 
-	const form = useForm<z.infer<typeof formSchema>>({
+	const form = useForm<InvoiceSchema>({
+		// @ts-ignore: next-line
 		resolver: zodResolver(formSchema),
 		defaultValues: invoice || defaultInvoice,
 	});
@@ -59,8 +60,8 @@ export default function ProfileForm({ invoice }: Props) {
 			// @ts-ignore: next-line
 			values.status = isDraft ? "draft" : "pending";
 
-			const res = await req(
-				`/invoice${invoice ? `/${invoice.id}` : ""}`,
+			const res = await fetch(
+				`/api/invoice${invoice ? `/${invoice.id}` : ""}`,
 				{
 					method: invoice ? "PATCH" : "POST",
 					body: JSON.stringify(values),

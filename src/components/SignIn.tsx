@@ -1,6 +1,5 @@
 import googleOauth from "@/assets/img/btn_google_dark_normal_ios.svg";
 import { useToast } from "./ui/use-toast";
-import { req } from "@/lib/utils";
 
 export default function SignIn() {
 	const { toast } = useToast();
@@ -8,10 +7,10 @@ export default function SignIn() {
 		<div
 			onClick={async () => {
 				try {
-					const res = await req("/login/google");
+					const res = await fetch("/api/auth/google");
 
 					if (res.ok) {
-						location.href = await res.json();
+						location.href = await res.text();
 					} else {
 						throw new Error();
 					}

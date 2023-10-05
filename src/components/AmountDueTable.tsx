@@ -37,12 +37,8 @@ export default function AmountDueTable({ items }: Props) {
 						>
 							<TableCell>{item.name}</TableCell>
 							<TableCell>{item.quantity}</TableCell>
-							<TableCell>
-								{formatMoney(item.price, "United Kingdom")}
-							</TableCell>
-							<TableCell>
-								{formatMoney(item.total, "United Kingdom")}
-							</TableCell>
+							<TableCell>{formatMoney(item.price)}</TableCell>
+							<TableCell>{formatMoney(item.total)}</TableCell>
 						</TableRow>
 					);
 				})}

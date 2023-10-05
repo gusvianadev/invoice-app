@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export default z.object({
+const schema = z.object({
 	createdAt: z.number().int().positive(),
 	description: z.string(),
 	paymentTerms: z.number().int().positive(),
@@ -27,3 +27,7 @@ export default z.object({
 		})
 	),
 });
+
+export type InvoiceSchema = z.infer<typeof schema>;
+
+export default schema;

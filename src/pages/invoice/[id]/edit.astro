@@ -1,27 +1,24 @@
 ---
 import InvoiceForm from "@/components/InvoiceForm";
 import { Button } from "@/components/ui/button";
+import { invoices } from "@/db/schema";
 import EditLayout from "@/layouts/EditLayout.astro";
-import { req } from "@/lib/utils";
-import type { Invoice } from "@/types";
+import { parseInvoice } from "@/lib/utils";
+import { and, eq } from "drizzle-orm";
 
 const { id } = Astro.params;
 
-const res = await req(`/invoice/${id}`, {
-	headers: {
-		cookie: Astro.request.headers.get("cookie") || "",
-	},
+const userID = Astro.locals.user.id;
+
+const data = await Astro.locals.db.query.invoices.findFirst({
+	where: and(eq(invoices.userID, userID), eq(invoices.id, id!)),
 });
 
-if (!res.ok) {
-	if (res.status === 401) {
-		return Astro.redirect("/login", 401);
-	} else {
-		return Astro.redirect("/404", 404);
-	}
+if (!data) {
+	return Astro.redirect("/?error=404");
 }
 
-const invoice: Invoice = await res.json();
+const invoice = parseInvoice(data);
 
 export const prerender = false;
 ---
