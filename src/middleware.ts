@@ -34,7 +34,7 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
 			console.log("-----END SESSION-----");
 			ctx.locals.user = session.user;
 			ctx.locals.db = db;
-			if (pathname === "/api/auth/logout/") {
+			if (pathname === "/api/auth/logout") {
 				ctx.locals.session = session;
 				ctx.locals.authRequest = authRequest;
 			}
