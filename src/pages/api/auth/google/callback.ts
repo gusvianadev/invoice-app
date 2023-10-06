@@ -6,6 +6,7 @@ import { OAuthRequestError } from "@lucia-auth/oauth";
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request, url }) => {
+	console.log("Hello from callback");
 	const cookie = request.headers.get("cookie") || "";
 	const state = url.searchParams.get("state");
 	const code = url.searchParams.get("code");
@@ -14,6 +15,9 @@ export const GET: APIRoute = async ({ request, url }) => {
 	const storedState = cookies.google_oauth_state;
 
 	if (!state || !storedState || storedState !== state || !code) {
+		console.log(state);
+		console.log(storedState);
+		console.log(code);
 		return new Response("Unauthorized", {
 			status: 401,
 			statusText: "Unauthorized",
@@ -40,11 +44,14 @@ export const GET: APIRoute = async ({ request, url }) => {
 		};
 
 		const user = await getUser();
+		console.log(user);
 		const session = await auth.createSession({
 			userId: user.userId,
 			attributes: {},
 		});
+		console.log(session);
 		const sessionCookie = auth.createSessionCookie(session);
+		console.log(sessionCookie);
 
 		return new Response(
 			JSON.stringify({
