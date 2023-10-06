@@ -53,7 +53,11 @@ data = await db
 								class="block cursor-pointer gap-3 p-5 md:hidden"
 							>
 								<span class="flex w-full items-center justify-between">
-									<h3 class="mb-3">
+									<h3
+										class="mb-3"
+										transition:persist
+										transition:name="invoice-id"
+									>
 										<span class="text-gray-400">#</span>
 										{invoice.id}
 									</h3>

@@ -64,6 +64,7 @@ export default function ItemList({ control, watch }: Props) {
 										<FormControl>
 											<Input
 												{...field}
+												value={field.value || ""}
 												onChange={(ev) => {
 													onChange(
 														Number(ev.target.value)
@@ -92,6 +93,7 @@ export default function ItemList({ control, watch }: Props) {
 										<FormControl>
 											<Input
 												{...field}
+												value={field.value || ""}
 												onChange={(ev) => {
 													onChange(
 														Number(ev.target.value)
