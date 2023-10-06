@@ -24,14 +24,8 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
 		}
 
 		if (!session) {
-			console.log("-----LOGIN-----");
-			console.log(`REDIRECTING FROM ${pathname} TO /login/`);
-			console.log("-----END LOGIN-----");
 			return ctx.redirect("/login/");
 		} else {
-			console.log("-----SESSION-----");
-			console.log("SESSION: ", session);
-			console.log("-----END SESSION-----");
 			ctx.locals.user = session.user;
 			ctx.locals.db = db;
 			if (pathname === "/api/auth/logout") {
@@ -41,8 +35,5 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
 		}
 	}
 
-	console.log("-----PATHNAME-----");
-	console.log(`PATHNAME: ${pathname}`);
-	console.log("-----END PATHNAME-----");
 	return next();
 });
