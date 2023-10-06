@@ -2,6 +2,8 @@ import { googleAuth } from "@/lib/lucia";
 import type { APIRoute } from "astro";
 import { serializeCookie } from "lucia/utils";
 
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
 	const [url, state] = await googleAuth.getAuthorizationUrl();
 	const stateCookie = serializeCookie("google_oauth_state", state, {

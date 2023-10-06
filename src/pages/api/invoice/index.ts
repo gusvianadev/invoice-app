@@ -2,6 +2,8 @@ import type { InvoiceSchema } from "@/components/InvoiceForm/schema";
 import { invoices } from "@/db/schema";
 import type { APIRoute } from "astro";
 
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request, locals }) => {
 	const userID = locals.user.id;
 	const { senderAddress, clientAddress, ...body }: InvoiceSchema =

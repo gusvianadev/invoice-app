@@ -37,7 +37,7 @@ const { id, paid } = Astro.props;
 	<footer
 		class="flex items-center justify-center gap-4 bg-background py-4 md:hidden"
 	>
-		<a rel="prefetch" href={`/invoice/${id}/edit`}>
+		<a rel="prefetch" href={`/invoice/${id}/edit/`}>
 			<Button className="p-6 font-bold" variant="secondary">Edit</Button>
 		</a>
 		<DeleteDialog id={id} client:only="react" />

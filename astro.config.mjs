@@ -7,7 +7,8 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://invoice-app-gusvianadev.vercel.app/",
+	site: "https://invoice-app-gusvianadev.fly.dev/",
+	trailingSlash: "always",
 	integrations: [
 		react(),
 		tailwind({

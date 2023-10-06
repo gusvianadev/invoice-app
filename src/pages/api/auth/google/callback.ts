@@ -3,6 +3,8 @@ import { auth, googleAuth } from "@/lib/lucia";
 import { parseCookie } from "lucia/utils";
 import { OAuthRequestError } from "@lucia-auth/oauth";
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({ request, url }) => {
 	const cookie = request.headers.get("cookie") || "";
 	const state = url.searchParams.get("state");
