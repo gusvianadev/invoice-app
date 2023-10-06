@@ -14,7 +14,7 @@ declare namespace App {
 		user: {
 			id: string;
 			name: string;
-			email: string | undefined;
+			email: string | undefined | null;
 			picture: string;
 		};
 		db: DB;
@@ -30,7 +30,7 @@ declare namespace Lucia {
 	type AuthRequest = import("lucia").AuthRequest;
 	type DatabaseUserAttributes = {
 		name: string;
-		email: string | undefined;
+		email: string | undefined | null;
 		picture: string;
 	};
 	type DatabaseSessionAttributes = {};

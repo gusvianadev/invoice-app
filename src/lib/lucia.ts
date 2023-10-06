@@ -26,7 +26,7 @@ export const auth = lucia({
 export const googleAuth = google(auth, {
 	clientId: import.meta.env.GOOGLE_CLIENT_ID,
 	clientSecret: import.meta.env.GOOGLE_CLIENT_SECRET,
-	redirectUri: `${import.meta.env.GOOGLE_REDIRECT}/auth/google`,
+	redirectUri: `${import.meta.env.GOOGLE_REDIRECT}/auth/google/`,
 });
 
 export type Auth = typeof auth;
