@@ -1,9 +1,9 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel/serverless";
-
 import prefetch from "@astrojs/prefetch";
+
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,5 +16,7 @@ export default defineConfig({
 		prefetch(),
 	],
 	output: "hybrid",
-	adapter: vercel(),
+	adapter: node({
+		mode: "standalone",
+	}),
 });
